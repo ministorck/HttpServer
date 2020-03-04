@@ -18,7 +18,11 @@ public:
 signals:
 
 public slots:
-    void slot_poolClientInfo(QByteArray info);
+    void slot_poolClientInfo(QByteArray info,TaskTypeBase *manager);
+private:
+    bool processRequest(TaskTypeBase *manager,QString type,QString url);
+    bool processapi(TaskTypeBase *manager,QString type);
+    bool makeResponse(QString &inPut,QString &outPut);
 private:
     //线程池
     SThreadPool *s_threadPool;

@@ -16,6 +16,7 @@ void TaskTypeBase::stopWork()
 {
     //线程中开启消息循环时，该参数无效
     s_isRun = false;
+    s_isLoop = false;
     //线程开启消息循环时，有效。
     if(Q_NULLPTR != s_thread)
         s_thread->quit();

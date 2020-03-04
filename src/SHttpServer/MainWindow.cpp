@@ -11,6 +11,7 @@ MainWindow::MainWindow(TaskManager* task,QWidget *parent) :
     s_taskManager = task;
     s_tcpPort = ui->curPort->value();
     initThreadModel();
+    initHttpServer();
     s_printLog->writeLog("创建窗口");
     //开启TCP监听任务
     s_taskManager->slot_changeTcpPort(s_tcpPort);

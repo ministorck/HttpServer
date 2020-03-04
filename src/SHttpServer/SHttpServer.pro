@@ -17,7 +17,7 @@ INCLUDEPATH += ../STool
 
 SOURCES += main.cpp\
         MainWindow.cpp \
-    globaldata.cpp \
+        globaldata.cpp \
 	TaskManager/SThread.cpp \
 	TaskManager/SThreadPool.cpp \
 	TaskManager/TaskManager.cpp \
@@ -27,8 +27,7 @@ SOURCES += main.cpp\
 	TaskManager/TCP/STcpServerForm.cpp \
 	TaskManager/TCP/STcpSocketClient.cpp \
     SThreadModel.cpp \
-    ClientDataRecoder.cpp \
-    Http.cpp
+    ClientDataRecoder.cpp
 
 HEADERS  += MainWindow.h \
     globaldata.h \
@@ -42,8 +41,7 @@ HEADERS  += MainWindow.h \
 	TaskManager/TCP/STcpSocketClient.h \
     SThreadModel.h \
     PublicStruct.h \
-    ClientDataRecoder.h \
-    Http.h
+    ClientDataRecoder.h
 
 FORMS    += MainWindow.ui
 

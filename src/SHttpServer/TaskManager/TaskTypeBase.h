@@ -17,7 +17,7 @@ public:
     friend class SThread;
 
 signals:
-    void sig_fullData(QByteArray data);
+    void sig_fullData(QByteArray data,TaskTypeBase *monitor);
     void sig_ClientInfo(QString info);
 
 protected:

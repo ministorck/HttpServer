@@ -1,6 +1,7 @@
 #include "STcpSocketClient.h"
 #include "globaldata.h"
-
+#include <QJsonObject>
+#include <QJsonDocument>
 STcpSocketClient::STcpSocketClient(qintptr handle,QObject* parent): TaskTypeBase(parent)
 {
     s_handle = handle;
@@ -12,15 +13,23 @@ STcpSocketClient::~STcpSocketClient()
 
 }
 
+void STcpSocketClient::writeData(QByteArray byte)
+{
+    if(s_tcpSocket != NULL)
+    {
+        if(s_tcpSocket->isOpen())
+        {
+            int i = s_tcpSocket->write(byte);
+            s_tcpSocket->flush();
+            s_printLog->writeLog("send msglength:" + QString::number(i));
+        }
+    }
+}
+
 void STcpSocketClient::working(QThread *thread)
 {
     if(initTcpSocket(thread))
     {
-        QByteArray data("服务器");
-        int l = s_tcpSocket->write(data);
-        QString strLog = QString("写入长度：%1").arg(QString::number(l));
-        s_printLog->writeLog(strLog);
-
         //打开消息循环
         openLoop();
     }
@@ -44,13 +53,14 @@ void STcpSocketClient::tcpReceiveClient_slots()
     {
         QByteArray data = s_tcpSocket->readAll();
         // 处理消息
-        emit sig_fullData(data);
+        emit sig_fullData(data,this);
+        // 显示内容
         QString str(data);
-        s_printLog->writeLog(str);
         QString info;
         info.sprintf("线程：%p收到消息：",s_thread);
         info += str;
         emit sig_ClientInfo(info);
+        s_printLog->writeLog(str);
     }
 }
 

@@ -51,7 +51,7 @@ void SThread::run()
         s_taskTypeBase = s_taskQueue->deQueueTask();
         if(s_taskTypeBase != Q_NULLPTR)
         {
-            connect(s_taskTypeBase,SIGNAL(sig_fullData(QByteArray)),this,SIGNAL(sig_fullData(QByteArray)));
+            connect(s_taskTypeBase,SIGNAL(sig_fullData(QByteArray,TaskTypeBase *)),this,SIGNAL(sig_fullData(QByteArray,TaskTypeBase *)));
             connect(s_taskTypeBase,SIGNAL(sig_ClientInfo(QString)),this,SIGNAL(sig_strClientInfo(QString)));
             s_printLog->writeLog("获取到任务");
             s_bThrStatus = true;

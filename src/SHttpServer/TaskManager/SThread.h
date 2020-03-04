@@ -25,7 +25,7 @@ signals:
      */
     void sig_updateState(void* id,SAction action);
 
-    void sig_fullData(QByteArray data);
+    void sig_fullData(QByteArray data,TaskTypeBase *monitor);
 
     void sig_strClientInfo(QString info);
 

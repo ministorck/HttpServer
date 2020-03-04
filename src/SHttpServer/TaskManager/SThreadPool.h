@@ -22,7 +22,7 @@ public:
 signals:
     void sig_ThreadState(const ThreadModelStruct,const SAction);
 
-    void sig_poolfullData(QByteArray data);
+    void sig_poolfullData(QByteArray data,TaskTypeBase *monitor);
 
     void sig_poolClientInfo(QString info);
 

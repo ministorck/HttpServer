@@ -10,7 +10,8 @@ class STcpSocketClient : public TaskTypeBase
 public:
     STcpSocketClient(qintptr handle,QObject* parent = Q_NULLPTR);
     ~STcpSocketClient();
-
+    void writeData(QByteArray byte);
+    QTcpSocket *GetTcpSocket(){if(s_tcpSocket != NULL) return s_tcpSocket;}
 protected:
     void working(QThread* thread);
     void workEnd(QThread* thread);
