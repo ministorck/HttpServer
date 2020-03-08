@@ -9,7 +9,6 @@ SThreadPool::SThreadPool(TaskQueue* task,QObject* parent): QObject(parent)
     for(int n = 0;n<10;n++)
     {
         thread =new SThread(n,s_taskQueue);
-        connect(thread,SIGNAL(sig_fullData(QByteArray,TaskTypeBase *)),this,SIGNAL(sig_poolfullData(QByteArray,TaskTypeBase *)));
         connect(thread,SIGNAL(sig_strClientInfo(QString)),this,SIGNAL(sig_poolClientInfo(QString)));
 
         s_allThread.insert(thread,thread);

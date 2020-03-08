@@ -2,5 +2,6 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     STool \
-    SHttpServer
-
+    SHttpServer \
+    pluginmanager \
+    plugins/databaseplugin

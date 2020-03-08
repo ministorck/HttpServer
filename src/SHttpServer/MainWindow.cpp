@@ -10,7 +10,11 @@ MainWindow::MainWindow(TaskManager* task,QWidget *parent) :
     ui->setupUi(this);
     s_taskManager = task;
     s_tcpPort = ui->curPort->value();
+    // 加载功能组件
+    PluginManager::instance()->loadAllPlugins();
+    // 加载线程模型
     initThreadModel();
+    // 初始化服务
     initHttpServer();
     s_printLog->writeLog("创建窗口");
     //开启TCP监听任务
@@ -25,8 +29,8 @@ MainWindow::~MainWindow()
     delete ui;
     delete s_threadModel;
     disconnect(s_taskManager->getThreadPool(),SIGNAL(sig_poolClientInfo(QString)),this,SLOT(on_showClientInfo(QString)));
-
     disconnect(this,SIGNAL(sig_ChangeTcpPort(ushort)),s_taskManager,SLOT(slot_changeTcpPort(ushort)));
+    PluginManager::instance()->release();
 }
 
 void MainWindow::on_changeBtn_clicked()
@@ -60,5 +64,4 @@ void MainWindow::initThreadModel()
 
 void MainWindow::initHttpServer()
 {
-    s_clienDataRecoder = new ClientDataRecoder(this);
 }

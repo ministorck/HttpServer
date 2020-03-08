@@ -52,8 +52,10 @@ void STcpSocketClient::tcpReceiveClient_slots()
     while(s_tcpSocket->bytesAvailable() > 0)
     {
         QByteArray data = s_tcpSocket->readAll();
-        // 处理消息
-        emit sig_fullData(data,this);
+
+        QByteArray  writeData = PluginManager::instance()->recvData(data);
+        if(writeData.size()>4)
+            s_tcpSocket->write(writeData);
         // 显示内容
         QString str(data);
         QString info;

@@ -4,7 +4,6 @@
 #include <QMainWindow>
 #include "TaskManager/TaskManager.h"
 #include "SThreadModel.h"
-#include "ClientDataRecoder.h"
 namespace Ui {
 class MainWindow;
 }
@@ -37,7 +36,6 @@ private:
 
     TaskManager* s_taskManager;
 
-    ClientDataRecoder *s_clienDataRecoder;
     ushort s_tcpPort;
 };
 

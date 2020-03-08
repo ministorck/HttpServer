@@ -13,7 +13,9 @@ TEMPLATE = app
 
 DESTDIR = ../../bin
 
-INCLUDEPATH += ../STool
+INCLUDEPATH += ../STool \
+               ../pluginmanager \
+               ../plugins/databaseplugin
 
 SOURCES += main.cpp\
         MainWindow.cpp \
@@ -26,8 +28,7 @@ SOURCES += main.cpp\
 	TaskManager/TCP/STcpServer.cpp \
 	TaskManager/TCP/STcpServerForm.cpp \
 	TaskManager/TCP/STcpSocketClient.cpp \
-    SThreadModel.cpp \
-    ClientDataRecoder.cpp
+    SThreadModel.cpp
 
 HEADERS  += MainWindow.h \
     globaldata.h \
@@ -40,15 +41,21 @@ HEADERS  += MainWindow.h \
 	TaskManager/TCP/STcpServerForm.h \
 	TaskManager/TCP/STcpSocketClient.h \
     SThreadModel.h \
-    PublicStruct.h \
-    ClientDataRecoder.h
+    PublicStruct.h
 
 FORMS    += MainWindow.ui
 
 unix {
-    LIBS += -L../../lib -lSTool
+    LIBS += -L../../lib -lSTool \
+            -L../../lib -lpluginmanager \
+            -L../../lib/plugins -ldatabaseplugin
 }
 
 win32{
-    win32: LIBS += -L../../lib -lSTool
+    win32: LIBS += -L../../lib -lSTool \
+                   -L../../lib -lpluginmanager \
+                   -L../../lib/plugins -ldatabaseplugin
 }
+
+SUBDIRS += \
+    pluginmanager.pro
