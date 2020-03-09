@@ -1,5 +1,8 @@
 #include "pluginmanager.h"
 #include "pluginsmanagerprivate.h"
+#include "databaseinterface.h"
+#include "caledatainterface.h"
+#include "responselocaldatainterface.h"
 #include <QDir>
 #include <QCoreApplication>
 #include <QJsonArray>
@@ -123,6 +126,7 @@ void PluginManager::insert(QString str)
     }
 }
 
+
 QByteArray PluginManager::recvData(QByteArray byte)
 {
     QPluginLoader *loader = getPlugin("databasePlugin");
@@ -130,8 +134,53 @@ QByteArray PluginManager::recvData(QByteArray byte)
     {
         DatabaseInterface *database = dynamic_cast<DatabaseInterface*>(loader->instance());
         if(database)
-            return database->responseData(byte);
+        {
+
+//            return database->responseData(byte);
+            if(database->analyzingData(byte))
+            {
+                Method_ method = database->GetMethod();
+                switch (method) {
+                case Method_Get:
+                {
+                    QPluginLoader *loader2 = getPlugin("responseLocalDataPlugin");
+                    if(loader2)
+                    {
+                        ResponseLocalDataInterface *localData = dynamic_cast<ResponseLocalDataInterface *>(loader2->instance());
+                        if(localData)
+                        {
+                            if(localData->openLocalFile(database->GetUrl()))
+                            {
+                                QByteArray data = "";
+                                if(localData->readCurData(data))
+                                {
+                                    return database->GetResPonseData(data);
+                                }
+
+                            }
+                        }
+                    }
+                }
+                    break;
+                case Method_Put:
+
+                    break;
+                case Method_Post:
+
+                    break;
+                case Method_Patch:
+
+                    break;
+                case Method_Delete:
+
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
     }
+    return QByteArray("");
 }
 
 QVariant PluginManager::getPluginName(QPluginLoader *loader)

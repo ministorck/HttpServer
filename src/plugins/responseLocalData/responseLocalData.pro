@@ -1,12 +1,12 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2020-03-06T10:27:24
+# Project created by QtCreator 2020-03-09T19:56:50
 #
 #-------------------------------------------------
 
 QT       += core gui
 
-TARGET = databaseplugin
+TARGET = responseLocalData
 TEMPLATE = lib
 CONFIG += plugin
 
@@ -22,11 +22,11 @@ INCLUDEPATH += ../../pluginmanager
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
-SOURCES += databaseplugin.cpp
+SOURCES += ResponseLocalData.cpp
 
-HEADERS += databaseplugin.h \
-    databaseinterface.h
-DISTFILES += databaseplugin.json
+HEADERS += ResponseLocalData.h \
+    responselocaldatainterface.h
+DISTFILES += responseLocalData.json
 
 unix {
     target.path = /usr/lib

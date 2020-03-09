@@ -1,14 +1,15 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2020-03-06T10:27:24
+# Project created by QtCreator 2020-03-09T18:11:23
 #
 #-------------------------------------------------
 
 QT       += core gui
 
-TARGET = databaseplugin
+TARGET = caleDataPlugin
 TEMPLATE = lib
 CONFIG += plugin
+
 
 win32 {
     CONFIG(debug, debug|release) {
@@ -22,11 +23,11 @@ INCLUDEPATH += ../../pluginmanager
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
-SOURCES += databaseplugin.cpp
+SOURCES += caleDataPlugin.cpp
 
-HEADERS += databaseplugin.h \
-    databaseinterface.h
-DISTFILES += databaseplugin.json
+HEADERS += caleDataPlugin.h \
+    caledatainterface.h
+DISTFILES += caleDataPlugin.json
 
 unix {
     target.path = /usr/lib

@@ -76,6 +76,63 @@ QByteArray DatabasePlugin::responseData(QByteArray byte)
     return inspectionBufferSetup();
 }
 
+bool DatabasePlugin::analyzingData(QByteArray byte)
+{
+    buffer_ = byte;
+    return inspectionBufferSetup()=="" ? false : true;
+}
+
+Method_ DatabasePlugin::GetMethod()
+{
+    if(requestMethod_.toUpper() == "GET")
+    {
+        return Method_Get;
+    }
+    else if(requestMethod_.toUpper() == "PUT")
+    {
+        return Method_Put;
+    }
+    else if(requestMethod_.toUpper() == "POST")
+    {
+        return Method_Post;
+    }
+    else if(requestMethod_.toUpper() == "PATCH")
+    {
+        return Method_Patch;
+    }
+    else if(requestMethod_.toUpper() == "DELETE")
+    {
+        return Method_Delete;
+    }
+    return Method_Error;
+}
+
+QByteArray DatabasePlugin::GetResPonseData(QByteArray data)
+{
+    responseData_ = data;
+    if(requestMethod_.toUpper() == "GET")
+    {
+        return get_();
+    }
+    else if(requestMethod_.toUpper() == "PUT")
+    {
+        return put_();
+    }
+    else if(requestMethod_.toUpper() == "POST")
+    {
+        return post_();
+    }
+    else if(requestMethod_.toUpper() == "PATCH")
+    {
+        return patch_();
+    }
+    else if(requestMethod_.toUpper() == "DELETE")
+    {
+        return delete_();
+    }
+    return error_();
+}
+
 QByteArray DatabasePlugin::inspectionBufferSetup()
 {
     QByteArray ret = "";
@@ -120,10 +177,10 @@ QByteArray DatabasePlugin::inspectionBufferSetup()
             requestUrl_ = requestLineDatas.at( 1 );
             requestCrlf_ = requestLineDatas.at( 2 );
 
-            if ( ( requestMethod_ != "GET" ) &&
-                 ( requestMethod_ != "OPTIONS" ) &&
-                 ( requestMethod_ != "POST" ) &&
-                 ( requestMethod_ != "PUT" ) )
+            if ( ( requestMethod_.toUpper() != "GET" ) &&
+                 ( requestMethod_.toUpper() != "PUT" ) &&
+                 ( requestMethod_.toUpper() != "POST" ) &&
+                 ( requestMethod_.toUpper() != "DELETE" ) )
             {
                 this->deleteLater();
                 return ret;
@@ -133,9 +190,9 @@ QByteArray DatabasePlugin::inspectionBufferSetup()
         {
             buffer_.remove( 0, 2 );
             if ( ( requestMethod_.toUpper() == "GET" ) ||
-                 ( requestMethod_.toUpper() == "OPTIONS" ) ||
+                 ( requestMethod_.toUpper() == "PUT" ) ||
                  ( ( requestMethod_.toUpper() == "POST" ) && ( ( contentLength_ > 0 ) ? ( !buffer_.isEmpty() ) : ( true ) ) ) ||
-                 ( ( requestMethod_.toUpper() == "PUT" ) && ( ( contentLength_ > 0 ) ? ( !buffer_.isEmpty() ) : ( true ) ) ) )
+                 ( ( requestMethod_.toUpper() == "DELETE" ) && ( ( contentLength_ > 0 ) ? ( !buffer_.isEmpty() ) : ( true ) ) ) )
             {
                 if(requestMethod_.toUpper() == "GET")
                 {
@@ -192,12 +249,10 @@ QByteArray DatabasePlugin::inspectionBufferSetup()
 
 QByteArray DatabasePlugin::get_()
 {
-    QString data = "get code!!!";
-
     QByteArray data2 = replyTextFormat.arg(QString::number(200),
-                                           QString("text;charset=UTF-8"),
-                                           QString::number(data.toUtf8().size()),
-                                           data).toUtf8();
+                                           QString("application/json;charset=UTF-8"),
+                                           QString::number(responseData_.size()),
+                                           responseData_).toUtf8();
     return data2;
 }
 
@@ -236,6 +291,16 @@ QByteArray DatabasePlugin::delete_()
     QString data = "";
     QByteArray data2 = replyTextFormat.arg(QString::number(200),
                                            QString("application/json;charset=UTF-8"),
+                                           QString::number(data.toUtf8().size()),
+                                           data).toUtf8();
+    return data2;
+}
+
+QByteArray DatabasePlugin::error_()
+{
+    QString data = "error method!!";
+    QByteArray data2 = replyTextFormat.arg(QString::number(200),
+                                           QString("text;charset=UTF-8"),
                                            QString::number(data.toUtf8().size()),
                                            data).toUtf8();
     return data2;

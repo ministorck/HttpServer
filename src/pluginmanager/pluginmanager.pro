@@ -16,7 +16,9 @@ win32 {
         DESTDIR  = ../../lib
     }
 }
-INCLUDEPATH += ../plugins/databaseplugin
+INCLUDEPATH += ../plugins/databaseplugin \
+               ../plugins/caleDataPlugin \
+               ../plugins/responseLocalData
 
 DEFINES += QT_DEPRECATED_WARNINGS
 

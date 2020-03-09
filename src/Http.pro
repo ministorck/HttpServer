@@ -4,4 +4,6 @@ SUBDIRS += \
     STool \
     SHttpServer \
     pluginmanager \
-    plugins/databaseplugin
+    plugins/databaseplugin \
+    plugins/caleDataPlugin \
+    plugins/responseLocalData

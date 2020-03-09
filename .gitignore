@@ -37,3 +37,4 @@ src/Http.pro.user
 *.Release
 *Makefile
 *moc_*
+ui_*

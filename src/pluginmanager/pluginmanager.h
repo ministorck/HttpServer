@@ -3,7 +3,6 @@
 
 #include "pluginmanager_global.h"
 #include "plugininterface.h"
-#include "databaseinterface.h"
 #include <QObject>
 #include <QPluginLoader>
 #include <QVariant>
@@ -35,6 +34,8 @@ public:
 
     /**测试数据库插件**/
     void insert(QString);//插入数据
+
+    bool checkData();
 
     QByteArray recvData(QByteArray byte);
 private:
